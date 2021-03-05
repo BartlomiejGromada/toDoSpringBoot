@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div>
+        <a th:href="@{/tasks}">Home</a>
+        <a th:href="@{/tasks/add}">Add task</a>
+</div><br />
+
+    <div class="container-fluid">
+    <h1>All tasks</h1>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th th:text="#{Task.IdTask}" scope="col">IdTask</th>
+                <th th:name="#{Task.Name}" scope="col">Name</th>
+                <th th:name="#{Task.Category}" scope="col">Category</th>
+                <th th:name="#{Task.Priority}" scope="col">Priority</th>
+                <th th:name="#{Task.Done}" scope="col">Done</th>
+                <th th:name="#{Task.Operations}" scope="col">Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="task: ${tasks}" th:object="${task}">
+                <td th:text="*{idTask}" scope="row">1</td>
+                <td th:text="*{name}" scope="row">Clean the house</td>
+                <td th:text="*{category}" scope="row">Cleaning</td>
+                <td th:text="*{priority}" scope="row">5</td>
+                <td th:text="*{done}" scope="row">Yes</td>
+                <td>
+                    <a th:href="@{/tasks}">Delete</a><br />
+                    <a th:href="@{/tasks}">Update</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p th:text="${message}">Message</p>
+    </div>
+</body>
+</html>
