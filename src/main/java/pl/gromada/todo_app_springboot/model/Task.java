@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import pl.gromada.todo_app_springboot.enums.Category;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -17,6 +18,7 @@ public class Task {
     private String name;
     @Enumerated(EnumType.STRING)
     private Category category;
+    private String date;
     private Integer priority;
     private Boolean done;
 

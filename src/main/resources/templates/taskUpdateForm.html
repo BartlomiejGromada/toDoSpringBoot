@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update task</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/global_css.css}">
+</head>
+<body>
+<div class="container">
+    <div>
+        <a th:href="@{/tasks}">Home</a>
+        <a th:href="@{/tasks/add}">Add task</a>
+    </div><br />
+
+    <h1>Update task</h1>
+    <form th:action="@{/tasks}" action="#" th:method="post" th:object="${task}">
+        <div class="form-group">
+            <input type="hidden" name="idTask" th:value="*{idTask}">
+            <label for="nameTask">Name</label>
+            <input type="text" placeholder="Name" name="name" id="nameTask" class="form-control"
+                   required th:value="*{name}"/>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryTask">Category</label>
+            <select name="category" id="categoryTask" class="form-control">
+                <option th:each="category: ${categories}" th:value="${category.name()}"
+                        th:text="${category.name()}" th:selected="*{category}">CLEANING</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dateTask">Date</label>
+            <input type="date" name="date" id="dateTask" class="form-control" required th:value="*{date}" />
+        </div>
+
+        <div class="form-group">
+            <label for="priorityTask">Priority</label>
+            <input type="number" name="priority" min="1" max="10" id="priorityTask"
+                   class="form-control" th:value="*{priority}"/>
+        </div>
+
+        <input type="hidden" name="done" value="0" />
+        <input type="submit" value="Update" class="btn btn-primary btn-lg"/>
+    </form>
+
+</div>
+</body>
+</html>

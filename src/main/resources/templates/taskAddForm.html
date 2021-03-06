@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update task</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/global_css.css}">
+</head>
+<body>
+<div class="container">
+    <div>
+        <a th:href="@{/tasks}">Home</a>
+    </div><br />
+
+    <h1>Add task</h1>
+    <form th:action="@{/tasks}" action="#" th:method="post" th:object="${task}">
+        <div class="form-group">
+            <label for="nameTask" th:name="#{Task.Name}">Name</label>
+            <input type="text" placeholder="Name" name="name" id="nameTask" class="form-control"
+                   required/>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryTask" th:text="#{Task.Category}">Category</label>
+            <select name="category" id="categoryTask" class="form-control">
+                <option th:each="category: ${categories}" th:value="${category.name()}"
+                        th:text="${category.name()}">CLEANING</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dateTask" th:text="#{Task.Date}">Date</label>
+            <input type="date" name="date" id="dateTask" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="priorityTask" th:text="#{Task.Priority}">Priority (1-10)</label>
+            <input type="number" name="priority" min="1" max="10" id="priorityTask"
+                   class="form-control"/>
+        </div>
+
+        <input type="hidden" name="done" value="0" />
+        <input type="submit" value="Add" class="btn btn-primary btn-lg"/>
+    </form>
+
+</div>
+</body>
+</html>

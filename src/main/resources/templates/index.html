@@ -5,42 +5,64 @@
     <title>ToDo App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/global_css.css">
 </head>
 <body>
-<div>
+<div class="container">
+    <div>
         <a th:href="@{/tasks}">Home</a>
-        <a th:href="@{/tasks/add}">Add task</a>
-</div><br />
+    </div><br />
 
-    <div class="container-fluid">
     <h1>All tasks</h1>
     <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th th:text="#{Task.IdTask}" scope="col">IdTask</th>
-                <th th:name="#{Task.Name}" scope="col">Name</th>
-                <th th:name="#{Task.Category}" scope="col">Category</th>
-                <th th:name="#{Task.Priority}" scope="col">Priority</th>
-                <th th:name="#{Task.Done}" scope="col">Done</th>
-                <th th:name="#{Task.Operations}" scope="col">Operations</th>
+                <th th:text="#{Task.Name}" scope="col">Name</th>
+                <th th:text="#{Task.Category}" scope="col">Category</th>
+                <th th:text="#{Task.Date}" scope="col">Date</th>
+                <th th:text="#{Task.Priority}" scope="col">Priority</th>
+                <th th:text="#{Task.Done}" scope="col">Done</th>
+                <th th:text="#{Task.Operations}" scope="col">Operations</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="task: ${tasks}" th:object="${task}">
-                <td th:text="*{idTask}" scope="row">1</td>
-                <td th:text="*{name}" scope="row">Clean the house</td>
-                <td th:text="*{category}" scope="row">Cleaning</td>
-                <td th:text="*{priority}" scope="row">5</td>
-                <td th:text="*{done}" scope="row">Yes</td>
+                <th th:text="*{idTask}" scope="col">1</th>
+                <td th:text="*{name}">Clean the house</td>
+                <td th:text="*{category}">Cleaning</td>
+                <td th:text="*{date}">25.02.2021</td>
+                <td th:text="*{priority}">5</td>
+                <td th:text="*{done}">Yes</td>
                 <td>
-                    <a th:href="@{/tasks}">Delete</a><br />
-                    <a th:href="@{/tasks}">Update</a>
+                    <a th:text="(*{done}? 'Open' : 'Done')" th:href="@{/tasks/done/{idTask}(idTask = ${task.idTask})}"
+                       class="btn btn-primary">Done</a>
+                    <a th:href="@{/tasks/delete/{idTask} (idTask = ${task.idTask})}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{/tasks/update/{idTask} (idTask = ${task.idTask})}" class="btn btn-warning">Update</a>
                 </td>
             </tr>
         </tbody>
     </table>
+</div>
 
-    <p th:text="${message}">Message</p>
+    <div th:if="${message}" class="alert alert-primary alert-dismissible fade show" role="alert">
+        <p th:text="${message}">Message</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+
+    <div class="container_bottom_buttons">
+        <a th:href="@{/tasks/add}" class="btn btn-secondary">Add task</a>
+        <a th:href="@{/tasks/removeAllDone}" class="btn btn-secondary">Remove done tasks</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>

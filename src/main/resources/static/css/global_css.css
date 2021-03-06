@@ -1,0 +1,25 @@
+body {
+    padding: 50px 50px 50px 50px;
+}
+
+label {
+    font-weight: bold;
+}
+
+div.container_bottom_buttons {
+    position: relative;
+    left: 20%;
+    bottom: 20%;
+}
+
+th.id {
+    font-weight: bold;
+}
+
+.alert {
+    width:50%;
+    position: relative;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+}
