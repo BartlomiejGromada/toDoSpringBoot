@@ -118,7 +118,6 @@ public class TaskController {
         Category[] categories = Category.values();
         model.addAttribute("categories", categories);
 
-
         return "taskUpdateForm";
     }
 

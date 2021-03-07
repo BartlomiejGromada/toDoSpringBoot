@@ -47,7 +47,7 @@
     <nav aria-label="Page navigation example" th:if="${pageNumbers.size()}>1">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" th:href="@{/tasks(page=${pageNumbers[0]})}"
-                                     th:text="Fist">Fist</a></li>
+                                     th:text="First">First</a></li>
             <li th:class="(${currentPage}==${pageNumber}) ? 'page-item active' : 'page-item'"
                 th:each="pageNumber: ${pageNumbers}"><a class="page-link" th:text="${pageNumber}"
                                                         th:href="@{/tasks(page=${pageNumber})}">1</a></li>
