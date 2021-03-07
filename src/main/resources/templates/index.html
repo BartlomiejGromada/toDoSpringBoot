@@ -43,6 +43,18 @@
             </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation example" th:if="${pageNumbers.size()}>1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" th:href="@{/tasks(page=${pageNumbers[0]})}"
+                                     th:text="Fist">Fist</a></li>
+            <li th:class="(${currentPage}==${pageNumber}) ? 'page-item active' : 'page-item'"
+                th:each="pageNumber: ${pageNumbers}"><a class="page-link" th:text="${pageNumber}"
+                                                        th:href="@{/tasks(page=${pageNumber})}">1</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/tasks(page=${pageNumbers[pageNumbers.size()-1]})}"
+                                     th:text="Last">Last</a></li>
+        </ul>
+    </nav>
 </div>
 
     <div th:if="${message}" class="alert alert-primary alert-dismissible fade show" role="alert">

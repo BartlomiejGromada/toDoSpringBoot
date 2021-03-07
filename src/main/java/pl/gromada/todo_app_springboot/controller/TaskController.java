@@ -1,6 +1,8 @@
 package pl.gromada.todo_app_springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,22 +12,39 @@ import pl.gromada.todo_app_springboot.model.Task;
 import pl.gromada.todo_app_springboot.repo.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
 
     private TaskRepository taskRepository;
+    private int currentPage;
 
     @Autowired
     public TaskController(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
+        this.currentPage = 1;
     }
 
     @GetMapping
-    public String allTasks(Model model) {
-        List<Task> allTasks = taskRepository.findAll();
-        model.addAttribute("tasks", allTasks);
+    public String allTasks(Model model, @RequestParam Optional<Integer> page, @RequestParam Optional<Integer> size) {
+        currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Task> taskPage = taskRepository.findAll(PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("tasks", taskPage);
+        model.addAttribute("currentPage", currentPage);
+
+        int totalPage = taskPage.getTotalPages();
+        if (totalPage > 0) {
+            List<Integer> pageNumbers = IntStream.range(1, totalPage+1)
+                    .boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
         return "index";
     }
 
@@ -48,6 +67,7 @@ public class TaskController {
                     + task.getIdTask() + " has been updated");
 
         taskRepository.save(task);
+        redirectAttributes.addAttribute("page", currentPage);
 
         return "redirect:/tasks";
     }
@@ -63,6 +83,8 @@ public class TaskController {
             redirectAttributes.addFlashAttribute("message", "Task with id: " + idTask + " has been marked as done");
         }
 
+        redirectAttributes.addAttribute("page", currentPage);
+
         return "redirect:/tasks";
     }
 
@@ -71,6 +93,8 @@ public class TaskController {
         taskRepository.deleteById(idTask);
         redirectAttributes.addFlashAttribute("message", "Task with id: " + idTask + " has been deleted");
 
+        redirectAttributes.addAttribute("page", currentPage);
+
         return "redirect:/tasks";
     }
 
@@ -78,11 +102,12 @@ public class TaskController {
     public String removeAllDone(RedirectAttributes redirectAttributes) {
         int c = taskRepository.deleteAllDone();
 
-        if(c>0)
+        if (c > 0)
             redirectAttributes.addFlashAttribute("message", "All done tasks has been deleted");
         else
             redirectAttributes.addFlashAttribute("message", "No open task");
 
+        redirectAttributes.addAttribute("page", currentPage);
         return "redirect:/tasks";
     }
 
@@ -92,6 +117,7 @@ public class TaskController {
         model.addAttribute("task", task);
         Category[] categories = Category.values();
         model.addAttribute("categories", categories);
+
 
         return "taskUpdateForm";
     }

@@ -23,3 +23,8 @@ th.id {
     left: 50%;
     transform: translateX(-50%);
 }
+
+table {
+    text-align: center;
+}
+
