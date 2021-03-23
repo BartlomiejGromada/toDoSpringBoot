@@ -44,7 +44,7 @@
         </tbody>
     </table>
 
-    <nav aria-label="Page navigation example" th:if="${pageNumbers.size()}>1">
+    <nav aria-label="Page navigation example" th:if="${pageNumbers} and ${pageNumbers.size()}>1">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" th:href="@{/tasks(page=${pageNumbers[0]})}"
                                      th:text="First">First</a></li>
